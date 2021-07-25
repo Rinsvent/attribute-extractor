@@ -1,6 +1,6 @@
 <?php
 
-namespace Rinsvent\RequestBundle\Attribute;
+namespace Rinsvent\AttributeExtractor;
 
 use ReflectionMethod;
 
