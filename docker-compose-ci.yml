@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+    attributeextractor_php:
+        image: dh.rinsvent.ru/php8dev
+        container_name: attributeextractor_php
+        volumes:
+            - ./:/app
+        environment:
+            USE_COMPOSER_SCRIPTS: 0
+
+networks:
+    default:
+        external:
+            name: full-project
