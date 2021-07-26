@@ -1,6 +1,6 @@
 <?php
 
-namespace Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\FillTest\Annotation;
+namespace Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation;
 
 #[\Attribute]
 class RequestDTO

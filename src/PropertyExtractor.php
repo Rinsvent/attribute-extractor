@@ -2,23 +2,25 @@
 
 namespace Rinsvent\AttributeExtractor;
 
-use ReflectionClass;
+use ReflectionProperty;
 
-class ClassExtractor
+class PropertyExtractor
 {
     public array $items = [];
-    public ReflectionClass $reflectionClass;
+    public bool $isInitialized = false;
+    public ReflectionProperty $reflectionProperty;
 
-    public function __construct(string $className)
+    public function __construct(string $className, string $property)
     {
-        $this->reflectionClass = new ReflectionClass($className);
+        $this->reflectionProperty = new ReflectionProperty($className, $property);
     }
 
     public function fetch(string $className): ?object
     {
         $pathHash = $this->getPathHash($className);
         if (!isset($this->items[$pathHash])) {
-            $this->items[$pathHash] = $this->reflectionClass->getAttributes($className);
+            $this->items[$pathHash] = $this->reflectionProperty->getAttributes($className);
+            $this->isInitialized = true;
         }
 
         $attribute = array_shift($this->items[$pathHash]);
@@ -30,7 +32,7 @@ class ClassExtractor
         return null;
     }
 
-    public function reinit(): void
+    public function reinit()
     {
         $this->isInitialized = false;
         $this->items = [];
