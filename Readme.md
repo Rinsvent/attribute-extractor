@@ -25,7 +25,7 @@ class HelloRequest
 }
 ```
 
-## Получаем отрибуты класса
+## Получаем атрибуты класса
 ```php
 // Инициалищируем
 $classExtractor = new ClassExtractor(HelloRequest::class);
@@ -38,7 +38,7 @@ while ($result = $classExtractor->fetch(RequestDTO::class)) {
 }
 ```
 
-## Получаем отрибуты свойства класса
+## Получаем атрибуты свойства класса
 ```php
 // Инициалищируем
 $methodExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
