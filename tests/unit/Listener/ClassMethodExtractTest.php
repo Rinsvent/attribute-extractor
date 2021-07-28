@@ -2,7 +2,7 @@
 
 namespace Rinsvent\AttributeExtractor\Tests\Listener;
 
-use Rinsvent\AttributeExtractor\PropertyExtractor;
+use Rinsvent\AttributeExtractor\MethodExtractor;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\HeaderKey;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\PropertyPath;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\HelloRequest;
@@ -25,38 +25,51 @@ class ClassMethodExtractTest extends \Codeception\Test\Unit
     // tests
     public function testExtractEmptyMethodAttribute()
     {
-        $methodExtractor = new PropertyExtractor(HelloRequest::class, 'age');
+        $methodExtractor = new MethodExtractor(HelloRequest::class, 'getAge');
         $result = $methodExtractor->fetch(HeaderKey::class);
         $this->assertNull($result);
     }
 
     public function testExtractExistMethodAttribute()
     {
-        $methodExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
+        $methodExtractor = new MethodExtractor(HelloRequest::class, 'getAge');
         $result = $methodExtractor->fetch(PropertyPath::class);
         $this->assertNotNull($result);
-        $this->assertEquals('DTO', $result->path);
+        $this->assertEquals('age3', $result->path);
     }
 
     public function testDoubleExtractExistClassAttribute()
     {
-        $methodExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
+        $methodExtractor = new MethodExtractor(HelloRequest::class, 'getAge');
         $result = $methodExtractor->fetch(PropertyPath::class);
         $this->assertNotNull($result);
-        $this->assertEquals('DTO', $result->path);
+        $this->assertEquals('age3', $result->path);
         $result = $methodExtractor->fetch(PropertyPath::class);
         $this->assertNull($result);
     }
 
     public function testReinitExtractExistClassAttribute()
     {
-        $methodExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
+        $methodExtractor = new MethodExtractor(HelloRequest::class, 'getAge');
         $result = $methodExtractor->fetch(PropertyPath::class);
         $this->assertNotNull($result);
-        $this->assertEquals('DTO', $result->path);
+        $this->assertEquals('age3', $result->path);
         $methodExtractor->reinit();
         $result = $methodExtractor->fetch(PropertyPath::class);
         $this->assertNotNull($result);
-        $this->assertEquals('DTO', $result->path);
+        $this->assertEquals('age3', $result->path);
+    }
+
+    public function testReinitExtractExistMultipleMethodAttribute()
+    {
+//        $methodExtractor = new MethodExtractor(HelloRequest::class, 'getDto');
+//        $result = $methodExtractor->fetch(PropertyPath::class);
+//        $this->assertNotNull($result);
+//        $this->assertEquals('dto1', $result->path);
+//        $result = $methodExtractor->fetch(PropertyPath::class);
+//        $this->assertNotNull($result);
+//        $this->assertEquals('dto2', $result->path);
+//        $result = $methodExtractor->fetch(PropertyPath::class);
+//        $this->assertNull($result);
     }
 }

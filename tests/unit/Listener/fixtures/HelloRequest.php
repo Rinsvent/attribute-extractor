@@ -14,4 +14,17 @@ class HelloRequest
     public int $age;
     #[PropertyPath(path: 'DTO')]
     public string $dto;
+
+    #[PropertyPath(path: 'age3')]
+    public function getAge(): int
+    {
+        return $this->age;
+    }
+
+    #[PropertyPath(path: 'dto1')]
+    public function getDto(): string
+    {
+        return $this->dto;
+    }
+
 }
