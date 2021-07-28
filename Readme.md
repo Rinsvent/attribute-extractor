@@ -13,6 +13,7 @@ namespace Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\HeaderKey;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\PropertyPath;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\RequestDTO;
+use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\MultiplePropertyPath;
 
 #[RequestDTO(className: 'HelloRequestDTO', jsonPath: '$.customObject')]
 class HelloRequest
@@ -22,6 +23,13 @@ class HelloRequest
     public int $age;
     #[PropertyPath(path: 'DTO')]
     public string $dto;
+    
+    #[MultiplePropertyPath(path: 'dto1')]
+    #[MultiplePropertyPath(path: 'dto2')]
+    public function getDto(): string
+    {
+        return $this->dto;
+    }
 }
 ```
 
@@ -31,17 +39,21 @@ class HelloRequest
 $classExtractor = new ClassExtractor(HelloRequest::class);
 // Получаем первый атрибут
 $result = $classExtractor->fetch(RequestDTO::class);
-or
-// Перебираем все атрибуты
-while ($result = $classExtractor->fetch(RequestDTO::class)) {
-    // todo реализация 
-}
 ```
 
 ## Получаем атрибуты свойства класса
 ```php
 // Инициалищируем
-$methodExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
+$propertyExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
 // Получаем первый атрибут
-$result = $methodExtractor->fetch(PropertyPath::class);
+$result = $propertyExtractor->fetch(PropertyPath::class);
+```
+## Получаем атрибуты метода класса
+```php
+// Инициалищируем
+$methodExtractor = new MethodExtractor(HelloRequest::class, 'getDto');
+// Перебираем все атрибуты
+while ($result = $methodExtractor->fetch(MultiplePropertyPath::class)) {
+    // todo реализация 
+}
 ```

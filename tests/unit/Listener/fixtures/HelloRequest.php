@@ -3,6 +3,7 @@
 namespace Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures;
 
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\HeaderKey;
+use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\MultiplePropertyPath;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\PropertyPath;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\RequestDTO;
 
@@ -21,7 +22,8 @@ class HelloRequest
         return $this->age;
     }
 
-    #[PropertyPath(path: 'dto1')]
+    #[MultiplePropertyPath(path: 'dto1')]
+    #[MultiplePropertyPath(path: 'dto2')]
     public function getDto(): string
     {
         return $this->dto;
