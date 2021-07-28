@@ -2,23 +2,23 @@
 
 namespace Rinsvent\AttributeExtractor;
 
-use ReflectionClass;
+use ReflectionMethod;
 
-class ClassExtractor
+class MethodExtractor
 {
     public array $items = [];
-    public ReflectionClass $reflectionClass;
+    public ReflectionMethod $reflectionMethod;
 
-    public function __construct(string $className)
+    public function __construct(string $className, string $method)
     {
-        $this->reflectionClass = new ReflectionClass($className);
+        $this->reflectionMethod = new ReflectionMethod($className, $method);
     }
 
     public function fetch(string $className): ?object
     {
         $pathHash = $this->getPathHash($className);
         if (!isset($this->items[$pathHash])) {
-            $this->items[$pathHash] = $this->reflectionClass->getAttributes($className);
+            $this->items[$pathHash] = $this->reflectionMethod->getAttributes($className);
         }
 
         $attribute = array_shift($this->items[$pathHash]);

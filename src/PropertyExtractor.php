@@ -32,7 +32,7 @@ class PropertyExtractor
         return null;
     }
 
-    public function reinit()
+    public function reinit(): void
     {
         $this->isInitialized = false;
         $this->items = [];
