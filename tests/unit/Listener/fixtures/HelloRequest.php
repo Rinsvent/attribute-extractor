@@ -28,5 +28,4 @@ class HelloRequest
     {
         return $this->dto;
     }
-
 }
