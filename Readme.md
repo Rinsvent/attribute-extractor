@@ -4,6 +4,11 @@
 PHP 8 attribute extractor
 ===
 
+## Установка
+```bash
+composer require rinsvent/attribute-extractor
+```
+
 ## Пример класса с атрибутами
 ```php
 <?php
@@ -35,6 +40,8 @@ class HelloRequest
 
 ## Получаем атрибуты класса
 ```php
+use Rinsvent\AttributeExtractor\ClassExtractor;
+
 // Инициалищируем
 $classExtractor = new ClassExtractor(HelloRequest::class);
 // Получаем первый атрибут
@@ -43,6 +50,8 @@ $result = $classExtractor->fetch(RequestDTO::class);
 
 ## Получаем атрибуты свойства класса
 ```php
+use Rinsvent\AttributeExtractor\PropertyExtractor;
+
 // Инициалищируем
 $propertyExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
 // Получаем первый атрибут
@@ -50,6 +59,8 @@ $result = $propertyExtractor->fetch(PropertyPath::class);
 ```
 ## Получаем атрибуты метода класса
 ```php
+use Rinsvent\AttributeExtractor\MethodExtractor;
+
 // Инициалищируем
 $methodExtractor = new MethodExtractor(HelloRequest::class, 'getDto');
 // Перебираем все атрибуты
