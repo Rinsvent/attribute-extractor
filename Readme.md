@@ -68,3 +68,39 @@ while ($result = $methodExtractor->fetch(MultiplePropertyPath::class)) {
     // todo реализация 
 }
 ```
+
+## Реализована поддержка получениеатрибутов наследников
+```php
+#[\Attribute]
+class RequestDTO
+{
+    public function __construct(
+        public string $className,
+        public string $jsonPath = '$',
+    ) {}
+}
+
+#[\Attribute]
+class UserRequestDTO extends RequestDTO
+{
+    public function __construct(
+        public string $className,
+        public string $jsonPath = '$.user',
+    ) {}
+}
+```
+
+```php
+use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\UserRequestDTO;
+
+class ExtendsRequest
+{
+    #[UserRequestDTO(className: 'HelloRequestDTO')]
+    public object $user;
+}
+```
+
+```php
+$propertyExtractor = new PropertyExtractor(ExtendsRequest::class, 'user');
+$result = $propertyExtractor->fetch(RequestDTO::class);
+```
