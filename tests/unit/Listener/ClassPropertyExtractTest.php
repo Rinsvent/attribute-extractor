@@ -2,7 +2,7 @@
 
 namespace Rinsvent\AttributeExtractor\Tests\Listener;
 
-use Rinsvent\AttributeExtractor\PropertyExtractor;
+use Rinsvent\AttributeExtractor\PropertyIterator;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\HeaderKey;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\PropertyPath;
 use Rinsvent\AttributeExtractor\Tests\unit\Listener\fixtures\Annotation\RequestDTO;
@@ -28,49 +28,37 @@ class ClassPropertyExtractTest extends \Codeception\Test\Unit
     // tests
     public function testExtractEmptyMethodAttribute()
     {
-        $propertyExtractor = new PropertyExtractor(HelloRequest::class, 'age');
-        $result = $propertyExtractor->fetch(HeaderKey::class);
+        $propertyExtractor = new PropertyIterator(HelloRequest::class, 'age', HeaderKey::class);
+        $result = $propertyExtractor[0];
         $this->assertNull($result);
     }
 
     public function testExtractExistMethodAttribute()
     {
-        $propertyExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
-        $result = $propertyExtractor->fetch(PropertyPath::class);
+        $propertyExtractor = new PropertyIterator(HelloRequest::class, 'dto', PropertyPath::class);
+        $result = $propertyExtractor[0];
         $this->assertNotNull($result);
         $this->assertEquals('DTO', $result->path);
     }
 
     public function testDoubleExtractExistClassAttribute()
     {
-        $propertyExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
-        $result = $propertyExtractor->fetch(PropertyPath::class);
+        $propertyExtractor = new PropertyIterator(HelloRequest::class, 'dto', PropertyPath::class);
+        $result = $propertyExtractor[0];
         $this->assertNotNull($result);
         $this->assertEquals('DTO', $result->path);
-        $result = $propertyExtractor->fetch(PropertyPath::class);
+        $result = $propertyExtractor[1];
         $this->assertNull($result);
-    }
-
-    public function testReinitExtractExistClassAttribute()
-    {
-        $propertyExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
-        $result = $propertyExtractor->fetch(PropertyPath::class);
-        $this->assertNotNull($result);
-        $this->assertEquals('DTO', $result->path);
-        $propertyExtractor->reinit();
-        $result = $propertyExtractor->fetch(PropertyPath::class);
-        $this->assertNotNull($result);
-        $this->assertEquals('DTO', $result->path);
     }
 
     public function testCheckExtendsAttribute()
     {
-        $propertyExtractor = new PropertyExtractor(ExtendsRequest::class, 'user');
-        $result = $propertyExtractor->fetch(RequestDTO::class);
+        $propertyExtractor = new PropertyIterator(ExtendsRequest::class, 'user', RequestDTO::class);
+        $result = $propertyExtractor[0];
         $this->assertNotNull($result);
         $this->assertEquals('$.user', $result->jsonPath);
         $this->assertInstanceOf(UserRequestDTO::class, $result);
-        $result = $propertyExtractor->fetch(RequestDTO::class);
+        $result = $propertyExtractor[1];
         $this->assertNull($result);
     }
 }
