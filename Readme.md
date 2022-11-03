@@ -40,36 +40,36 @@ class HelloRequest
 
 ## Получаем атрибуты класса
 ```php
-use Rinsvent\AttributeExtractor\ClassExtractor;
+use Rinsvent\AttributeExtractor\ClassIterator;
 
 // Инициалищируем
-$classExtractor = new ClassExtractor(HelloRequest::class);
+$classIterator = new ClassIterator(HelloRequest::class, RequestDTO::class);
 // Получаем первый атрибут
-$result = $classExtractor->fetch(RequestDTO::class);
+$result = $classIterator[0];
 ```
 
 ## Получаем атрибуты свойства класса
 ```php
-use Rinsvent\AttributeExtractor\PropertyExtractor;
+use Rinsvent\AttributeExtractor\PropertyIterator;
 
 // Инициалищируем
-$propertyExtractor = new PropertyExtractor(HelloRequest::class, 'dto');
+$propertyIterator = new PropertyIterator(HelloRequest::class, 'dto', PropertyPath::class);
 // Получаем первый атрибут
-$result = $propertyExtractor->fetch(PropertyPath::class);
+$result = $propertyIterator[0];
 ```
 ## Получаем атрибуты метода класса
 ```php
-use Rinsvent\AttributeExtractor\MethodExtractor;
+use Rinsvent\AttributeExtractor\MethodIterator;
 
 // Инициалищируем
-$methodExtractor = new MethodExtractor(HelloRequest::class, 'getDto');
+$methodIterator = new MethodIterator(HelloRequest::class, 'getDto', MultiplePropertyPath::class);
 // Перебираем все атрибуты
-while ($result = $methodExtractor->fetch(MultiplePropertyPath::class)) {
+foreach ($methodIterator as $result) {
     // todo реализация 
 }
 ```
 
-## Реализована поддержка получениеатрибутов наследников
+## Реализована поддержка получение атрибутов наследников
 ```php
 #[\Attribute]
 class RequestDTO
@@ -101,6 +101,6 @@ class ExtendsRequest
 ```
 
 ```php
-$propertyExtractor = new PropertyExtractor(ExtendsRequest::class, 'user');
-$result = $propertyExtractor->fetch(RequestDTO::class);
+$propertyIterator = new PropertyIterator(ExtendsRequest::class, 'user', RequestDTO::class);
+$result = $propertyIterator[0];
 ```
